@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
@@ -18,8 +19,11 @@ class QuestionController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $questions = Question::latest()->paginate(5);
+//        DB::enableQueryLog();
+        $questions = Question::with('user')->latest()->paginate(10);
         return view('questions.index', compact('questions'));
+//        view('questions.index', compact('questions'))->render();
+//        dd(DB::getQueryLog());
     }
 
     /**
