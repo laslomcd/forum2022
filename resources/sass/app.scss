@@ -7,6 +7,18 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+a {
+    text-decoration: none;
+}
+
+.media-body {
+    width: 100%;
+}
+
+form.form-delete {
+    display: inline;
+}
+
 .counters {
     margin-right: 30px;
     font-size: 10px;
@@ -42,7 +54,6 @@
         margin-top: 10px;
     }
 }
-
 
 
 
