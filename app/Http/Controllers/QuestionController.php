@@ -8,11 +8,19 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 
 //use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +42,8 @@ class QuestionController extends Controller
      */
     public function create(): View|Factory|Application
     {
-        return view('questions.create');
+        $question = new Question();
+        return view('questions.create', compact('question'));
     }
 
     /**
@@ -69,7 +78,12 @@ class QuestionController extends Controller
      */
     public function edit(Question $question): View|Factory|Application
     {
+//        if(Gate::denies('update-question', $question)) {
+//            abort(403, 'Access is Denied');
+//        }
+        $this->authorize('update', $question);
         return view('questions.edit', compact('question'));
+
     }
 
     /**
@@ -93,6 +107,9 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question): RedirectResponse
     {
+        if(Gate::denies('delete-question', $question)) {
+            abort(403, "Access Denied");
+        }
         $question->delete();
         return redirect()->route('questions.index')->with('success', 'Your question has been successfully deleted!');
     }
