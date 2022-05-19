@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Parsedown;
 
@@ -17,6 +18,11 @@ class Question extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function answers(): HasMany
+    {
+        return $this->hasMany(Answer::class);
     }
 
     /**
@@ -41,7 +47,7 @@ class Question extends Model
 
     public function getStatusAttribute()
     {
-        if($this->answers > 0) {
+        if($this->answers_count > 0) {
             if($this->best_answer_id) {
                 return "answer-accepted";
             }
