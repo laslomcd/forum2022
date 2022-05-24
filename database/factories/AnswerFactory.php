@@ -22,7 +22,7 @@ class AnswerFactory extends Factory
             'body' => $this->faker->paragraph(rand(3,7), true),
             'question_id' => Question::pluck('id')->random(),
             'user_id' => User::pluck('id')->random(),
-            'votes_count' => rand(0,5),
+//            'votes_count' => rand(0,5),
         ];
     }
 }

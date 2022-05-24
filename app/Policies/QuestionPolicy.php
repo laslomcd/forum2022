@@ -15,9 +15,9 @@ class QuestionPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Question $question
+     * @return Response
      */
     public function update(User $user, Question $question)
     {
@@ -27,13 +27,13 @@ class QuestionPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Question $question
+     * @return bool
      */
     public function delete(User $user, Question $question)
     {
-        return $user->id === $question->user_id && $question->answers < 1;
+        return $user->id === $question->user_id && $question->answers->count() < 1;
     }
 
 }
