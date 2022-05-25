@@ -15,6 +15,8 @@ class Question extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['created_date'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -22,7 +24,7 @@ class Question extends Model
 
     public function answers(): HasMany
     {
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class)->orderBy('votes_count', 'desc');
     }
 
     /**
@@ -58,7 +60,7 @@ class Question extends Model
 
     public function getBodyHtmlAttribute()
     {
-        return Parsedown::instance()->text($this->body);
+        return clean($this->bodyHtml());
     }
 
     public function acceptBestAnswer(Answer $answer)
@@ -87,4 +89,18 @@ class Question extends Model
         return $this->favorites->count();
     }
 
+    public function getExcerptAttribute()
+    {
+        return $this->excerpt(250);
+    }
+
+    public function excerpt($length)
+    {
+        return Str::limit(strip_tags($this->bodyHtml()), $length);
+    }
+
+    private function bodyHtml()
+    {
+        return Parsedown::instance()->text($this->body);
+    }
 }

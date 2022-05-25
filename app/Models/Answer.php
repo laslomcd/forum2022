@@ -12,6 +12,8 @@ class Answer extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['created_date', 'bodyHtml'];
+
     public function question()
     {
         return $this->belongsTo(Question::class);

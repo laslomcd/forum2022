@@ -107,9 +107,10 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question): RedirectResponse
     {
-        if(Gate::denies('delete-question', $question)) {
-            abort(403, "Access Denied");
-        }
+//        if(Gate::denies('delete-question', $question)) {
+//            abort(403, "Access Denied");
+//        }
+        $this->authorize('delete', $question);
         $question->delete();
         return redirect()->route('questions.index')->with('success', 'Your question has been successfully deleted!');
     }

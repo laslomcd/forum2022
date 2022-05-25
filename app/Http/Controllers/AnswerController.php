@@ -7,6 +7,7 @@ use App\Models\Question;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -51,7 +52,7 @@ class AnswerController extends Controller
      *
      * @param Request $request
      * @param Answer $answer
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function update(Request $request, Question $question, Answer $answer)
     {
@@ -61,7 +62,16 @@ class AnswerController extends Controller
             'body' => 'required'
         ]));
 
-        return redirect()->route('questions.show', $question->slug)->with('success', 'Your answer has been updated!');
+        if($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Your answer has been updated!',
+                'bodyHtml' => $answer->bodyHtml
+            ]);
+        }
+
+//        return redirect()->route('questions.show', $question->slug)->with('success', 'Your answer has been updated!');
+
+
     }
 
     /**
@@ -75,6 +85,12 @@ class AnswerController extends Controller
         $this->authorize('delete', $answer);
 
         $answer->delete();
+
+        if(request()->expectsJson()) {
+            return response()->json([
+                'message' => 'Your answer has been deleted!'
+            ]);
+        }
 
         return back()->with('success', 'Your answer has been deleted!');
     }

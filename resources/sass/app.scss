@@ -6,11 +6,21 @@
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 
-// Variables
-@import 'variables';
+.navbar .nav-link,
+.navbar-brand {
+    border-left: none !important;
+    border-right: none !important;
+}
+
+
 
 // Bootstrap
+@import '~bootswatch/dist/slate/variables';
 @import '~bootstrap/scss/bootstrap';
+@import '~bootswatch/dist/slate/bootswatch';
+
+// Variables
+@import 'variables';
 
 a {
     text-decoration: none;
@@ -98,6 +108,17 @@ form.form-delete {
 
 .back-btn {
     min-width: 167px;
+}
+
+.post {
+    padding: 20px 0;
+    &:not(:last-child) {
+        border-bottom: 1px solid rgba($black, 0.1);
+    }
+}
+
+[v-cloak] {
+    display: none;
 }
 
 
