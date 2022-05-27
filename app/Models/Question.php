@@ -15,7 +15,7 @@ class Question extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['created_date'];
+    protected $appends = ['created_date', 'isFavorited', 'favoritesCount'];
 
     public function user(): BelongsTo
     {
