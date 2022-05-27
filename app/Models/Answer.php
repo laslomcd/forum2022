@@ -12,7 +12,7 @@ class Answer extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['created_date', 'bodyHtml'];
+    protected $appends = ['created_date', 'bodyHtml', 'isBest'];
 
     public function question()
     {
